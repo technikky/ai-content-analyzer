@@ -1,0 +1,51 @@
+services:
+  api:
+    build:
+      context: .
+      target: api
+    image: ai-content-analyzer-api:local
+    ports:
+      - "8000:8000"
+    environment:
+      ANALYZER_LIBRARY_DIR: /app/library
+    # Hosted providers only; the default analyzers need no keys, so a missing .env is fine.
+    env_file:
+      - path: .env
+        required: false
+
+  web:
+    build:
+      context: .
+      target: web
+      args:
+        # Baked into the browser bundle at build time, so it must be the URL the browser
+        # will use, not the internal service name.
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    image: ai-content-analyzer-web:local
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  # One-shot: the analyzer evaluation that produces the README's tables.
+  evaluate:
+    build:
+      context: .
+      target: api
+    image: ai-content-analyzer-api:local
+    volumes:
+      - ./reports:/app/reports
+    user: root
+    command: ["evaluate", "--data=data/eval", "--out=reports"]
+
+  # One-shot: the JSON-repair harness. Exits non-zero if a case stops behaving as labelled.
+  repair:
+    build:
+      context: .
+      target: api
+    image: ai-content-analyzer-api:local
+    volumes:
+      - ./reports:/app/reports
+    user: root
+    command: ["repair", "--cases=data/eval/repair_cases.jsonl", "--out=reports"]

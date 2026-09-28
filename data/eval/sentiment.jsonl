@@ -1,0 +1,61 @@
+# Sentiment labels. Text written for this repository. dev was used for development; test was held out.
+{"id": "s-d01", "label": "positive", "note": "", "split": "dev", "text": "The onboarding flow is excellent and the docs are genuinely helpful."}
+{"id": "s-d02", "label": "positive", "note": "", "split": "dev", "text": "Setup was quick and the defaults were sensible."}
+{"id": "s-d03", "label": "positive", "note": "", "split": "dev", "text": "I love how responsive the dashboard feels now."}
+{"id": "s-d04", "label": "positive", "note": "", "split": "dev", "text": "A solid release: faster, cleaner, and easier to configure."}
+{"id": "s-d05", "label": "positive", "note": "", "split": "dev", "text": "The support team was thorough and resolved it the same day."}
+{"id": "s-d06", "label": "positive", "note": "", "split": "dev", "text": "Billing is transparent and the pricing is affordable for a small team."}
+{"id": "s-d07", "label": "positive", "note": "", "split": "dev", "text": "Export works reliably and the output is accurate."}
+{"id": "s-d08", "label": "positive", "note": "negated negative", "split": "dev", "text": "The migration was smooth and nothing broke."}
+{"id": "s-d09", "label": "negative", "note": "", "split": "dev", "text": "The app crashes every time I open the reports tab."}
+{"id": "s-d10", "label": "negative", "note": "", "split": "dev", "text": "Sync is slow and the error messages are useless."}
+{"id": "s-d11", "label": "negative", "note": "", "split": "dev", "text": "Terrible experience: three outages in one week."}
+{"id": "s-d12", "label": "negative", "note": "", "split": "dev", "text": "The new editor is clunky and confusing compared to the old one."}
+{"id": "s-d13", "label": "negative", "note": "", "split": "dev", "text": "Overpriced for what it does, and the API is poorly documented."}
+{"id": "s-d14", "label": "negative", "note": "", "split": "dev", "text": "I am frustrated that basic filtering is still missing."}
+{"id": "s-d15", "label": "negative", "note": "", "split": "dev", "text": "The upgrade introduced a regression that broke our nightly job."}
+{"id": "s-d16", "label": "negative", "note": "negated positive", "split": "dev", "text": "This is not good enough for production use."}
+{"id": "s-d17", "label": "neutral", "note": "", "split": "dev", "text": "The release notes list the changed endpoints and the new default timeout."}
+{"id": "s-d18", "label": "neutral", "note": "", "split": "dev", "text": "Invoices are issued on the first working day of each month."}
+{"id": "s-d19", "label": "neutral", "note": "", "split": "dev", "text": "The service runs in three regions and replicates asynchronously."}
+{"id": "s-d20", "label": "neutral", "note": "", "split": "dev", "text": "Configuration lives in a YAML file at the repository root."}
+{"id": "s-d21", "label": "neutral", "note": "", "split": "dev", "text": "The report covers the period from January to March."}
+{"id": "s-d22", "label": "neutral", "note": "", "split": "dev", "text": "Authentication uses OAuth 2.0 with refresh tokens."}
+{"id": "s-d23", "label": "neutral", "note": "", "split": "dev", "text": "The meeting has been moved to Thursday afternoon."}
+{"id": "s-d24", "label": "neutral", "note": "", "split": "dev", "text": "Version 4.2 ships with the updated schema."}
+{"id": "s-d25", "label": "mixed", "note": "", "split": "dev", "text": "The interface is beautiful but the search is painfully slow."}
+{"id": "s-d26", "label": "mixed", "note": "", "split": "dev", "text": "Great documentation, terrible pricing."}
+{"id": "s-d27", "label": "mixed", "note": "", "split": "dev", "text": "Reliable core product, though the mobile app is buggy and unstable."}
+{"id": "s-d28", "label": "mixed", "note": "", "split": "dev", "text": "I appreciate the fast support, but the underlying bug is still unresolved."}
+{"id": "s-d29", "label": "mixed", "note": "", "split": "dev", "text": "Excellent performance, awful onboarding."}
+{"id": "s-d30", "label": "mixed", "note": "", "split": "dev", "text": "The features are useful and comprehensive, yet the errors are frustrating and frequent."}
+{"id": "s-t01", "label": "positive", "note": "", "split": "test", "text": "An outstanding update: the new charts are clear and fast."}
+{"id": "s-t02", "label": "positive", "note": "", "split": "test", "text": "Deployment was straightforward and the rollback worked perfectly."}
+{"id": "s-t03", "label": "positive", "note": "", "split": "test", "text": "The team is pleased with how stable the service has become."}
+{"id": "s-t04", "label": "positive", "note": "", "split": "test", "text": "Impressive attention to detail in the latest design pass."}
+{"id": "s-t05", "label": "positive", "note": "", "split": "test", "text": "Highly recommend it for teams that need accurate reporting."}
+{"id": "s-t06", "label": "positive", "note": "", "split": "test", "text": "The import is efficient and the results are consistent."}
+{"id": "s-t07", "label": "positive", "note": "negated negative", "split": "test", "text": "Not disappointing at all, which I was expecting."}
+{"id": "s-t08", "label": "positive", "note": "", "split": "test", "text": "A welcome improvement over the previous release."}
+{"id": "s-t09", "label": "negative", "note": "", "split": "test", "text": "Unacceptable downtime during our busiest week."}
+{"id": "s-t10", "label": "negative", "note": "", "split": "test", "text": "The exports fail silently and nobody noticed for days."}
+{"id": "s-t11", "label": "negative", "note": "", "split": "test", "text": "Sluggish, unreliable, and far too expensive."}
+{"id": "s-t12", "label": "negative", "note": "", "split": "test", "text": "The documentation is outdated and the examples are wrong."}
+{"id": "s-t13", "label": "negative", "note": "", "split": "test", "text": "I hated the new navigation; finding anything is tedious."}
+{"id": "s-t14", "label": "negative", "note": "negated positive", "split": "test", "text": "This was not helpful and wasted an afternoon."}
+{"id": "s-t15", "label": "negative", "note": "", "split": "test", "text": "Constant crashes make the tool unusable for our workflow."}
+{"id": "s-t16", "label": "negative", "note": "", "split": "test", "text": "The support reply was slow and did not address the problem."}
+{"id": "s-t17", "label": "neutral", "note": "", "split": "test", "text": "The endpoint accepts a cursor parameter and returns fifty records per page."}
+{"id": "s-t18", "label": "neutral", "note": "", "split": "test", "text": "Logs are retained for thirty days and then archived."}
+{"id": "s-t19", "label": "neutral", "note": "", "split": "test", "text": "The build runs on every push to the main branch."}
+{"id": "s-t20", "label": "neutral", "note": "", "split": "test", "text": "Two engineers are assigned to the migration this quarter."}
+{"id": "s-t21", "label": "neutral", "note": "", "split": "test", "text": "The schema adds a nullable column for the region code."}
+{"id": "s-t22", "label": "neutral", "note": "", "split": "test", "text": "Office hours are held on Tuesdays at eleven."}
+{"id": "s-t23", "label": "neutral", "note": "", "split": "test", "text": "The dataset contains four hundred thousand rows."}
+{"id": "s-t24", "label": "neutral", "note": "", "split": "test", "text": "Rate limits apply per API key rather than per account."}
+{"id": "s-t25", "label": "mixed", "note": "", "split": "test", "text": "The pricing is generous, but the onboarding is a disaster."}
+{"id": "s-t26", "label": "mixed", "note": "", "split": "test", "text": "Fast queries, confusing interface."}
+{"id": "s-t27", "label": "mixed", "note": "", "split": "test", "text": "Useful integrations, though the sync is unreliable and slow."}
+{"id": "s-t28", "label": "mixed", "note": "", "split": "test", "text": "The reporting is accurate and clear, but the export is broken."}
+{"id": "s-t29", "label": "mixed", "note": "", "split": "test", "text": "Wonderful support team; terrible product stability."}
+{"id": "s-t30", "label": "mixed", "note": "", "split": "test", "text": "Efficient and affordable, yet the missing features are frustrating."}

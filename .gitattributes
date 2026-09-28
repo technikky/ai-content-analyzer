@@ -1,0 +1,7 @@
+# Normalise to LF. A CRLF checkout shifts every character offset, so entity spans and
+# derived gold spans would differ between platforms.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

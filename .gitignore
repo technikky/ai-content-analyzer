@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.env
+.env.*
+!.env.example
+.analysis-cache/
+library/
+reports/
+
+# frontend
+node_modules/
+.next/
+out/
+web/coverage/
+*.tsbuildinfo

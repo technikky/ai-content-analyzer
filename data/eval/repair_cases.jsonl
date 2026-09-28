@@ -1,0 +1,25 @@
+# Malformed model responses. should_parse records whether the repair pipeline ought to recover each one.
+{"id": "r01", "note": "well formed", "raw": "{\"summary\": \"A clean response.\", \"key_points\": [\"one\"]}", "schema_name": "summary", "should_parse": true}
+{"id": "r02", "note": "markdown fence", "raw": "```json\n{\"summary\": \"Fenced response.\"}\n```", "schema_name": "summary", "should_parse": true}
+{"id": "r03", "note": "fence with no language", "raw": "```\n{\"summary\": \"Unlabelled fence.\"}\n```", "schema_name": "summary", "should_parse": true}
+{"id": "r04", "note": "prose preamble", "raw": "Here is the JSON you asked for:\n{\"summary\": \"After preamble.\"}", "schema_name": "summary", "should_parse": true}
+{"id": "r05", "note": "prose epilogue", "raw": "{\"summary\": \"Before a sign-off.\"}\nHope that helps!", "schema_name": "summary", "should_parse": true}
+{"id": "r06", "note": "smart quotes", "raw": "{\u201csummary\u201d: \u201cSmart quoted keys and values.\u201d}", "schema_name": "summary", "should_parse": true}
+{"id": "r07", "note": "trailing comma in object", "raw": "{\"summary\": \"Trailing comma.\",}", "schema_name": "summary", "should_parse": true}
+{"id": "r08", "note": "single quotes", "raw": "{'summary': 'Single quoted throughout.'}", "schema_name": "summary", "should_parse": true}
+{"id": "r09", "note": "well formed", "raw": "{\"label\": \"positive\", \"score\": 0.8, \"rationale\": \"clear praise\"}", "schema_name": "sentiment", "should_parse": true}
+{"id": "r10", "note": "fence plus trailing comma", "raw": "```json\n{\"label\": \"negative\", \"score\": -0.6,}\n```", "schema_name": "sentiment", "should_parse": true}
+{"id": "r11", "note": "apostrophe inside a double-quoted value", "raw": "{\"label\": \"mixed\", \"score\": 0.0, \"rationale\": \"both, and it's fine\"}", "schema_name": "sentiment", "should_parse": true}
+{"id": "r12", "note": "None is not a valid score", "raw": "{\"label\": \"neutral\", \"score\": None}", "schema_name": "sentiment", "should_parse": false}
+{"id": "r13", "note": "label outside the allowed set", "raw": "{\"label\": \"quite good\", \"score\": 0.5}", "schema_name": "sentiment", "should_parse": false}
+{"id": "r14", "note": "required label missing", "raw": "{\"score\": 0.5}", "schema_name": "sentiment", "should_parse": false}
+{"id": "r15", "note": "well formed", "raw": "{\"entities\": [{\"text\": \"Acme Ltd\", \"type\": \"ORG\"}]}", "schema_name": "entities", "should_parse": true}
+{"id": "r16", "note": "trailing commas in nested structures", "raw": "{\"entities\": [{\"text\": \"Acme Ltd\", \"type\": \"ORG\",},]}", "schema_name": "entities", "should_parse": true}
+{"id": "r17", "note": "prose either side of a fence", "raw": "I found these entities:\n```json\n{\"entities\": []}\n```\nLet me know.", "schema_name": "entities", "should_parse": true}
+{"id": "r18", "note": "type outside the allowed set", "raw": "{\"entities\": [{\"text\": \"Acme\", \"type\": \"COMPANY\"}]}", "schema_name": "entities", "should_parse": false}
+{"id": "r19", "note": "well formed", "raw": "{\"answer\": \"Yes.\", \"supported\": true, \"evidence\": [\"a line\"]}", "schema_name": "qa", "should_parse": true}
+{"id": "r20", "note": "Python boolean literal", "raw": "{\"answer\": \"Yes.\", \"supported\": True}", "schema_name": "qa", "should_parse": true}
+{"id": "r21", "note": "braces inside a string value", "raw": "{\"answer\": \"It says {braces} inside.\", \"supported\": false}", "schema_name": "qa", "should_parse": true}
+{"id": "r22", "note": "truncated output", "raw": "{\"answer\": \"Unterminated", "schema_name": "qa", "should_parse": false}
+{"id": "r23", "note": "prose only, no JSON at all", "raw": "I cannot answer that.", "schema_name": "qa", "should_parse": false}
+{"id": "r24", "note": "empty response", "raw": "", "schema_name": "qa", "should_parse": false}

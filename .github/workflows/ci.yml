@@ -1,0 +1,185 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: backend (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,serve]"
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Format check
+        run: ruff format --check .
+
+      - name: Type check
+        run: mypy
+
+      - name: Tests
+        run: pytest --cov=analyzer --cov-report=term-missing --cov-report=xml
+
+      - name: Upload coverage
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: coverage.xml
+
+  frontend:
+    name: frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # `npm ci` not `npm install`: a build that resolves a different dependency tree than
+      # the one that was tested is not the same build.
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test
+
+      - name: Production build
+        run: npm run build
+
+  evaluation:
+    name: analyzer evaluation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      # The numbers in the README come from these two commands. Neither needs an API key or
+      # a model download, so they run per-commit rather than nightly.
+      - name: Measure every analyzer on both splits
+        run: analyzer evaluate --data data/eval --out reports
+
+      # Exits non-zero if any malformed-output case stops behaving as labelled, which means
+      # the repair pipeline changed behaviour.
+      - name: JSON repair harness
+        run: analyzer repair --cases data/eval/repair_cases.jsonl --out reports
+
+      - name: Upload evaluation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-reports
+          path: reports/
+
+  secrets-scan:
+    name: secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker:
+    name: docker build
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build the API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: api
+          push: false
+          load: true
+          tags: analyzer-api:ci
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,mode=max,scope=api
+
+      - name: Build the web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: web
+          push: false
+          load: true
+          tags: analyzer-web:ci
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,mode=max,scope=web
+
+      # Start the API and exercise it. This is what catches a broken entrypoint or a
+      # missing prebuilt library before anyone clones the repository.
+      - name: Run the API container and query it
+        run: |
+          docker run -d --name analyzer-api -p 8000:8000 analyzer-api:ci
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/healthz > /dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://localhost:8000/healthz
+          curl -fsS -X POST http://localhost:8000/analyze \
+            -H 'content-type: application/json' \
+            -d '{"text":"Rania Haddad joined Northwind Systems Ltd in Penang on 14 March 2024. The onboarding was excellent.","analyses":["summary","sentiment","entities"]}' \
+            | tee /tmp/analysis.json
+          grep -q '"label":"positive"' /tmp/analysis.json
+          grep -q '"PERSON"' /tmp/analysis.json
+          curl -fsS -X POST http://localhost:8000/search \
+            -H 'content-type: application/json' \
+            -d '{"query":"how long are logs retained","top_k":1}' | grep -q data-retention
+
+      - name: API logs on failure
+        if: failure()
+        run: docker logs analyzer-api
+
+      - name: Stop the container
+        if: always()
+        run: docker rm -f analyzer-api
